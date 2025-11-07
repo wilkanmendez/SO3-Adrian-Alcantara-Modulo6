@@ -1,0 +1,23 @@
+# Práctica 1 – Cifrado con GPG2
+
+# Instalar GPG2
+sudo dnf install gnupg2 -y
+
+# Crear un directorio y archivo
+mkdir ~/gpg_lab
+cd ~/gpg_lab
+echo "Este es mi archivo secreto" > secreto.txt
+
+# Cifrar el archivo con GPG2 (modo simétrico)
+gpg2 -c secreto.txt
+# Te pedirá una contraseña.
+
+# Intentar leerlo (verás que no se puede)
+cat secreto.txt.gpg
+
+# Descifrar el archivo
+gpg2 secreto.txt.gpg
+# Te pedirá la contraseña. 
+# Luego:
+cat secreto.txt
+# Aparecerá el texto original.
