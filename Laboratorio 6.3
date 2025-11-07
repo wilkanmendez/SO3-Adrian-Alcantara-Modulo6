@@ -1,0 +1,23 @@
+# Práctica 3 – IDS Snort
+
+# Instalar Snort
+sudo dnf install snort -y
+
+# Crear archivo de reglas
+sudo nano /etc/snort/rules/local.rules
+
+# Agrega:
+alert icmp any any -> $HOME_NET any (msg:"ICMP detected"; sid:1000001;)
+alert tcp any any -> $HOME_NET 21 (msg:"FTP detected"; sid:1000002;)
+alert tcp any any -> $HOME_NET 22 (msg:"SSH detected"; sid:1000003;)
+alert tcp any any -> $HOME_NET 80 (msg:"HTTP detected"; sid:1000004;)
+
+# Ejecutar Snort en modo IDS
+sudo snort -A console -q -c /etc/snort/snort.conf -i eth0
+
+# Desde tu máquina host, realiza pruebas:
+ping <IP_VM>
+telnet <IP_VM> 21
+telnet <IP_VM> 22
+curl http://<IP_VM>
+# Verás alertas en la terminal de Snort.
