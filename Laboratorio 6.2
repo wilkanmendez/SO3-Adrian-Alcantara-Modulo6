@@ -1,0 +1,33 @@
+Práctica 2 – IPtables y Firewall
+
+Verifica los servicios instalados
+sudo systemctl start httpd
+sudo systemctl start vsftpd
+sudo systemctl start sshd
+sudo systemctl enable httpd vsftpd sshd
+
+Confirma que están escuchando
+sudo ss -tulnp | grep -E '80|21|22'
+
+Bloquear los puertos con iptables
+sudo iptables -A INPUT -p tcp --dport 80 -j DROP
+sudo iptables -A INPUT -p tcp --dport 21 -j DROP
+sudo iptables -A INPUT -p tcp --dport 22 -j DROP
+sudo iptables -L -n
+
+Volver a habilitar
+sudo iptables -D INPUT -p tcp --dport 80 -j DROP
+sudo iptables -D INPUT -p tcp --dport 21 -j DROP
+sudo iptables -D INPUT -p tcp --dport 22 -j DROP
+
+Usando firewall-cmd (RHEL):
+sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=21/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
+sudo firewall-cmd --reload
+
+Bloquear:
+sudo firewall-cmd --zone=public --remove-port=80/tcp --permanent
+sudo firewall-cmd --zone=public --remove-port=21/tcp --permanent
+sudo firewall-cmd --zone=public --remove-port=22/tcp --permanent
+sudo firewall-cmd --reload
